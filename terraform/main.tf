@@ -50,8 +50,8 @@ resource "aws_spot_instance_request" "this" {
     yq -i ".services.server.image = .services.server.build | del(.services.server.build)" docker-compose.yml
     export SERVER_IMAGE="tibiaot74/server:latest"
     yq -i '.services.server.image = env(SERVER_IMAGE)' docker-compose.yml
-    #systemctl enable otserver
-    #systemctl start otserver
+    systemctl enable otserver
+    systemctl start otserver
   EOF
 
   root_block_device {
