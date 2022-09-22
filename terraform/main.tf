@@ -45,11 +45,8 @@ resource "aws_spot_instance_request" "this" {
   iam_instance_profile   = aws_iam_instance_profile.this.name
   user_data              = <<-EOF
     #!/bin/bash
-    git clone https://github.com/tibiaot74/otserver.git /root/otserver
-    cd /root/otserver
-    yq -i ".services.server.image = .services.server.build | del(.services.server.build)" docker-compose.yml
-    export SERVER_IMAGE="tibiaot74/server:latest"
-    yq -i '.services.server.image = env(SERVER_IMAGE)' docker-compose.yml
+    git clone https://github.com/tibiaot74/infrastructure.git /root/infrastructure
+    cd /root/infrastructure
     systemctl enable otserver
     systemctl start otserver
   EOF
@@ -114,6 +111,24 @@ resource "aws_security_group" "this" {
     description      = "Allow players to connect to website"
     from_port        = 80
     to_port          = 80
+    protocol         = "tcp"
+  }
+
+  ingress {
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "Frontend API port"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+  }
+
+  ingress {
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "Allow players to connect to website"
+    from_port        = 7474
+    to_port          = 7474
     protocol         = "tcp"
   }
 

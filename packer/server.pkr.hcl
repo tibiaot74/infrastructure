@@ -37,7 +37,7 @@ build {
     source      = "${path.root}/otserver.service"
     destination = "/tmp/otserver.service"
   }
-  
+
   provisioner "shell" {
     script = "${path.root}/build.sh"
   }

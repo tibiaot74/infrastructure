@@ -21,7 +21,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
+
       - name: Check if packer folder changed to build new AMI
         uses: dorny/paths-filter@v2
         id: changes_on_packer_folder
@@ -58,4 +58,4 @@ jobs:
         with:
           command: build
           arguments: "-color=false -on-error=abort"
-          target: infrastructure/packer/server.pkr.hcl
+          target: packer/server.pkr.hcl
